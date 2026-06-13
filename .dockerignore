@@ -1,0 +1,8 @@
+node_modules
+rubiks-solver/frontend/dist
+.git
+__pycache__
+*.pyc
+.env
+venv
+.vscode
