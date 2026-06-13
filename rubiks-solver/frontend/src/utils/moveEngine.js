@@ -47,34 +47,34 @@ function cycle(state, cells) {
 const moves = {
   U(s) {
     rotateFaceCW(s, 'U');
-    for (let i = 0; i < 3; i++) cycle(s, [['F',i],['R',i],['B',i],['L',i]]);
+    for (let i = 0; i < 3; i++) cycle(s, [['F',i],['L',i],['B',i],['R',i]]);
   },
   "U'"(s) {
     rotateFaceCCW(s, 'U');
-    for (let i = 0; i < 3; i++) cycle(s, [['F',i],['L',i],['B',i],['R',i]]);
+    for (let i = 0; i < 3; i++) cycle(s, [['F',i],['R',i],['B',i],['L',i]]);
   },
   U2(s) { moves.U(s); moves.U(s); },
 
   D(s) {
     rotateFaceCW(s, 'D');
-    for (let i = 0; i < 3; i++) cycle(s, [['F',6+i],['L',6+i],['B',6+i],['R',6+i]]);
+    for (let i = 0; i < 3; i++) cycle(s, [['F',6+i],['R',6+i],['B',6+i],['L',6+i]]);
   },
   "D'"(s) {
     rotateFaceCCW(s, 'D');
-    for (let i = 0; i < 3; i++) cycle(s, [['F',6+i],['R',6+i],['B',6+i],['L',6+i]]);
+    for (let i = 0; i < 3; i++) cycle(s, [['F',6+i],['L',6+i],['B',6+i],['R',6+i]]);
   },
   D2(s) { moves.D(s); moves.D(s); },
 
   R(s) {
     rotateFaceCW(s, 'R');
     for (let i = 0; i < 3; i++) {
-      cycle(s, [['F',2+i*3],['U',2+i*3],['B',6-i*3],['D',2+i*3]]);
+      cycle(s, [['F', 2 + i * 3], ['U', 2 + i * 3], ['B', 6 - i * 3], ['D', 2 + i * 3]]);
     }
   },
   "R'"(s) {
     rotateFaceCCW(s, 'R');
     for (let i = 0; i < 3; i++) {
-      cycle(s, [['F',2+i*3],['D',2+i*3],['B',6-i*3],['U',2+i*3]]);
+      cycle(s, [['F', 2 + i * 3], ['D', 2 + i * 3], ['B', 6 - i * 3], ['U', 2 + i * 3]]);
     }
   },
   R2(s) { moves.R(s); moves.R(s); },
@@ -82,13 +82,13 @@ const moves = {
   L(s) {
     rotateFaceCW(s, 'L');
     for (let i = 0; i < 3; i++) {
-      cycle(s, [['F',i*3],['D',i*3],['B',8-i*3],['U',i*3]]);
+      cycle(s, [['F', i * 3], ['D', i * 3], ['B', 8 - i * 3], ['U', i * 3]]);
     }
   },
   "L'"(s) {
     rotateFaceCCW(s, 'L');
     for (let i = 0; i < 3; i++) {
-      cycle(s, [['F',i*3],['U',i*3],['B',8-i*3],['D',i*3]]);
+      cycle(s, [['F', i * 3], ['U', i * 3], ['B', 8 - i * 3], ['D', i * 3]]);
     }
   },
   L2(s) { moves.L(s); moves.L(s); },

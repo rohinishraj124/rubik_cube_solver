@@ -6,12 +6,12 @@ const FACE_ORDER = ['U', 'R', 'F', 'D', 'L', 'B'];
 const ALL_COLORS = ['W', 'Y', 'G', 'B', 'R', 'O'];
 
 const FACE_LABELS = {
-  U: 'TOP — White center UP',
-  R: 'RIGHT — Red center facing you',
-  F: 'FRONT — Green center facing you',
-  D: 'BOTTOM — Yellow center UP',
-  L: 'LEFT — Orange center facing you',
-  B: 'BACK — Blue center facing you',
+  U: 'TOP — White center. Yellow center points AWAY from you.',
+  R: 'RIGHT — Red center. White center points UP.',
+  F: 'FRONT — Green center. White center points UP.',
+  D: 'BOTTOM — Yellow center. White center points AWAY from you.',
+  L: 'LEFT — Orange center. White center points UP.',
+  B: 'BACK — Blue center. White center points UP.',
 };
 
 // Center color for each face (never changes — used to lock center sticker)
@@ -480,10 +480,8 @@ export default function WebcamScanner({ onScanComplete }) {
       canvas.width  = video.videoWidth  || 640;
       canvas.height = video.videoHeight || 480;
 
-      ctx.save();
-      ctx.scale(-1, 1);
-      ctx.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
-      ctx.restore();
+      // Draw normal feed (no horizontal flip)
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
       const { colors, gridSize, gx, gy, cell, centers } = detectFaceColors(canvas);
       drawOverlay(canvas, gridSize, gx, gy, cell, colors);

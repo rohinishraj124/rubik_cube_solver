@@ -1,17 +1,3 @@
-"""
-Rubik's Cube Representation
-============================
-A 3x3 Rubik's Cube has 6 faces: U (Up), D (Down), L (Left), R (Right), F (Front), B (Back)
-Each face has 9 stickers stored as a flat list [row0col0, row0col1, row0col2, row1col0, ...]
-
-Index layout per face:
-  0 1 2
-  3 4 5
-  6 7 8
-
-Colors: W=White, Y=Yellow, G=Green, B=Blue, R=Red, O=Orange
-"""
-
 import copy
 from typing import List, Dict
 
@@ -133,14 +119,14 @@ class Cube:
 
     def move_U(self):
         self._rotate_face_cw("U")
-        # Cycle: F top row → R top → B top → L top
+        # Cycle: F top row → L top → B top → R top
         for i in range(3):
-            self._cycle([("F", i), ("R", i), ("B", i), ("L", i)])
+            self._cycle([("F", i), ("L", i), ("B", i), ("R", i)])
 
     def move_U_prime(self):
         self._rotate_face_ccw("U")
         for i in range(3):
-            self._cycle([("F", i), ("L", i), ("B", i), ("R", i)])
+            self._cycle([("F", i), ("R", i), ("B", i), ("L", i)])
 
     def move_U2(self):
         self.move_U(); self.move_U()
@@ -148,19 +134,22 @@ class Cube:
     def move_D(self):
         self._rotate_face_cw("D")
         for i in range(3):
-            self._cycle([("F", 6 + i), ("L", 6 + i), ("B", 6 + i), ("R", 6 + i)])
+            self._cycle([("F", 6 + i), ("R", 6 + i), ("B", 6 + i), ("L", 6 + i)])
 
     def move_D_prime(self):
         self._rotate_face_ccw("D")
         for i in range(3):
-            self._cycle([("F", 6 + i), ("R", 6 + i), ("B", 6 + i), ("L", 6 + i)])
+            self._cycle([("F", 6 + i), ("L", 6 + i), ("B", 6 + i), ("R", 6 + i)])
+
 
     def move_D2(self):
         self.move_D(); self.move_D()
 
     def move_R(self):
         self._rotate_face_cw("R")
-        # F right col → U right col → B left col (inverted) → D right col
+        # Cycle: F right col -> U right col -> B left col (reversed) -> D right col
+        # Standard Boy's Color Scheme adjacency:
+        # F[2,5,8] -> U[2,5,8] -> B[6,3,0] -> D[2,5,8]
         for i in range(3):
             self._cycle([
                 ("F", 2 + i * 3),
@@ -184,6 +173,7 @@ class Cube:
 
     def move_L(self):
         self._rotate_face_cw("L")
+        # Cycle: F left col -> D left col -> B right col (reversed) -> U left col
         for i in range(3):
             self._cycle([
                 ("F", i * 3),
@@ -207,7 +197,7 @@ class Cube:
 
     def move_F(self):
         self._rotate_face_cw("F")
-        # U bottom → R left col → D top (reversed) → L right col (reversed)
+        # U bottom -> R left col -> D top (reversed) -> L right col (reversed)
         tmp = [self.state["U"][6], self.state["U"][7], self.state["U"][8]]
         self.state["U"][6] = self.state["L"][8]
         self.state["U"][7] = self.state["L"][5]

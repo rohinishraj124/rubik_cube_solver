@@ -1,16 +1,3 @@
-"""
-Solver Router
-=============
-Strategy:
-  - IDA*      → fast for ≤ 8 move scrambles
-  - Kociemba  → near-optimal for any scramble (needs C++ build tools on Windows)
-  - IDA* deep → fallback if kociemba not installed (works up to ~12 moves, slower)
-
-On Windows without C++ Build Tools, kociemba won't install.
-The deep IDA* fallback handles scrambles up to ~12 moves well.
-For very deep scrambles (>12 moves) without kociemba, increase max_depth
-at the cost of longer solve time.
-"""
 
 import time
 from typing import Optional, List, Dict, Any
@@ -20,11 +7,7 @@ from solver.kociemba_solver import solve_kociemba, is_kociemba_available
 
 
 def solve(cube: Cube, prefer: str = "auto") -> Dict[str, Any]:
-    """
-    Solve the cube.
-
-    prefer: "auto" | "ida_star" | "kociemba"
-    """
+    
     if cube.is_solved():
         return {"success": True, "moves": [], "move_count": 0,
                 "algorithm": "none", "time_seconds": 0.0}

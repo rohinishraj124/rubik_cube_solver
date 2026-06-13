@@ -1,24 +1,3 @@
-"""
-IDA* Solver (from scratch)
-===========================
-IDA* = Iterative Deepening A* search.
-
-Key ideas:
-  - Like DFS but with a cost threshold that increases each iteration
-  - Threshold starts at h(start) and grows to the next minimum f-value seen
-  - Admissible heuristic: never overestimates true distance to goal
-  - Our heuristic: count of misplaced corner + edge stickers (Manhattan-style)
-
-Complexity:
-  - Time: O(b^d) in worst case (b=branching factor≈15, d=solution depth)
-  - Space: O(d) — only stores current path (unlike BFS which stores all nodes)
-  - With good pruning tables, IDA* is used in production solvers
-
-Pruning:
-  - Don't apply the same face twice in a row  (R then R = R2, not 2 separate moves)
-  - Don't apply opposite faces back-to-back in a bad order (R then L is ok, L then R redundant)
-"""
-
 import time
 from typing import List, Optional, Tuple
 from cube.cube import Cube
@@ -42,13 +21,6 @@ INF = float("inf")
 
 
 def heuristic(cube: Cube) -> int:
-    """
-    Lower-bound estimate of moves needed to solve.
-    Uses 'number of stickers not on their home face' divided by 8
-    (each move affects at most 8 stickers on adjacent faces).
-
-    This is admissible (never overestimates) and consistent.
-    """
     if cube.is_solved():
         return 0
 
@@ -66,10 +38,6 @@ def heuristic(cube: Cube) -> int:
 
 def _search(cube: Cube, path: List[str], g: int, threshold: int,
             last_face: Optional[str], second_last_face: Optional[str]) -> Tuple[int, List[str]]:
-    """
-    Recursive IDA* search.
-    Returns (new_threshold_or_FOUND, solution_path).
-    """
     h = heuristic(cube)
     f = g + h
 
@@ -113,17 +81,6 @@ def _search(cube: Cube, path: List[str], g: int, threshold: int,
 
 
 def solve_ida_star(cube: Cube, max_depth: int = 20, time_limit: float = 30.0) -> Optional[List[str]]:
-    """
-    Solve the cube using IDA*.
-
-    Args:
-        cube: The scrambled cube
-        max_depth: Maximum search depth (IDA* stops if no solution found within this)
-        time_limit: Time limit in seconds
-
-    Returns:
-        List of moves (solution) or None if not found
-    """
     if cube.is_solved():
         return []
 

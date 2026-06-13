@@ -1,19 +1,3 @@
-"""
-Cube Validator
-==============
-Checks whether a given cube state is physically realizable.
-
-Checks performed:
-  1. Color count: exactly 9 of each color
-  2. All 6 faces present with exactly 9 stickers each
-  3. Center stickers are all different (6 unique colors)
-
-Note: Full parity validation (corner twist sum mod 3, edge flip sum mod 2,
-permutation parity) is left as an advanced exercise. The kociemba library
-will reject truly impossible states at solve time. The three checks above
-catch the vast majority of user input errors.
-"""
-
 from collections import Counter
 from typing import Dict, List, Tuple
 
@@ -48,11 +32,6 @@ EDGES = [
 
 
 def validate_cube(state: Dict[str, List[str]]) -> Tuple[bool, str]:
-    """
-    Returns (is_valid, error_message).
-    If valid, error_message is empty string.
-    """
-
     # ── Check 1: All faces present with correct sticker count ────────
     for face in FACES:
         if face not in state:
@@ -78,12 +57,5 @@ def validate_cube(state: Dict[str, List[str]]) -> Tuple[bool, str]:
     centers = {face: state[face][4] for face in FACES}
     if len(set(centers.values())) != 6:
         return False, "Center stickers are not all unique — each face center must be a different color"
-
-    # ── (Advanced) Checks 4-6: Parity validation ─────────────────────
-    # Corner twist sum ≡ 0 (mod 3), edge flip sum ≡ 0 (mod 2),
-    # and corner parity == edge parity are required for a physically
-    # solvable cube. Full implementation requires mapping each cubie to
-    # its home position, which is non-trivial.
-    # The kociemba library enforces these at solve time.
 
     return True, ""

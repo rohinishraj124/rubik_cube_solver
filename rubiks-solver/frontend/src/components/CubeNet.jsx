@@ -40,7 +40,17 @@ export default function CubeNet({ state, editable = false, onEdit, faceSize = 10
       {/* Row 2: L F R B */}
       {[['L', 1], ['F', 2], ['R', 3], ['B', 4]].map(([face, col]) => (
         <div key={face} style={{ gridRow: 2, gridColumn: col }}>
-          <CubeFace face={face} stickers={state[face]} editable={editable} onEdit={onEdit} size={faceSize} />
+          <CubeFace 
+            face={face} 
+            stickers={face === 'B' ? [
+              state.B[2], state.B[1], state.B[0],
+              state.B[5], state.B[4], state.B[3],
+              state.B[8], state.B[7], state.B[6]
+            ] : state[face]} 
+            editable={editable} 
+            onEdit={onEdit} 
+            size={faceSize} 
+          />
         </div>
       ))}
 
