@@ -3,7 +3,9 @@ FastAPI Backend
 ===============
 REST endpoints + WebSocket for browser-based webcam scanning.
 """
-
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+import os
 import sys
 import os
 import random
@@ -54,13 +56,13 @@ class ApplyMovesRequest(BaseModel):
 
 # ─── REST Endpoints ─────────────────────────────────────────────────
 
-@app.get("/")
-def root():
-    return {"message": "Rubik's Cube Solver API v2", "endpoints": [
-        "POST /solve", "POST /scramble", "POST /validate",
-        "POST /apply-moves", "GET /solved-state",
-        "WS  /ws/scan  (browser webcam)"
-    ]}
+# @app.get("/")
+# def root():
+#     return {"message": "Rubik's Cube Solver API v2", "endpoints": [
+#         "POST /solve", "POST /scramble", "POST /validate",
+#         "POST /apply-moves", "GET /solved-state",
+#         "WS  /ws/scan  (browser webcam)"
+#     ]}
 
 
 @app.post("/validate")
@@ -212,3 +214,24 @@ async def websocket_scan(websocket: WebSocket):
             await websocket.send_json({"type": "error", "message": str(e)})
         except:
             pass
+
+# ─── Serve React Frontend ──────────────────────────────────────────
+
+# Mount the assets directory (where Vite puts JS and CSS)
+if os.path.exists("static/assets"):
+    app.mount("/assets", StaticFiles(directory="static/assets"), name="assets")
+
+# Catch-all route to serve the React SPA
+@app.get("/{full_path:path}")
+def serve_frontend(full_path: str):
+    file_path = os.path.join("static", full_path)
+    # If the exact file exists (like an image or icon), serve it
+    if os.path.exists(file_path) and os.path.isfile(file_path):
+        return FileResponse(file_path)
+    
+    # Otherwise, fallback to the React index.html
+    frontend_index = "static/index.html"
+    if os.path.exists(frontend_index):
+        return FileResponse(frontend_index)
+        
+    return {"message": "API is live, but frontend build was not found."}
