@@ -236,7 +236,3 @@ Wraps the `kociemba` library.
 | `U`, `D`, `F`, `B`, `L` | Same pattern per face |
 
 ---
-
-## License
-
-MIT
