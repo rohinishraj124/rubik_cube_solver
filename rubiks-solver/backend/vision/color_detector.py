@@ -1,18 +1,3 @@
-"""
-Computer Vision Module — Enhanced
-====================================
-Uses OpenCV to scan a Rubik's Cube via webcam.
-
-HSV Color Ranges (tuned for standard Rubik's cube stickers):
-  Hue is 0-179 in OpenCV.
-
-  White:  low saturation, high value
-  Yellow: H≈20-35
-  Green:  H≈55-85
-  Blue:   H≈100-130
-  Red:    H≈0-10 OR H≈165-179 (wraps around)
-  Orange: H≈10-22
-"""
 
 import cv2
 import numpy as np
@@ -64,7 +49,6 @@ def classify_color(hsv_pixel: np.ndarray) -> str:
 
 
 def sample_face(frame: np.ndarray, grid_x: int, grid_y: int, grid_size: int) -> List[str]:
-    """Sample 9 sticker colors from a 3x3 grid region."""
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     cell = grid_size // 3
     colors = []
@@ -155,16 +139,6 @@ def draw_overlay(frame: np.ndarray, grid_x: int, grid_y: int, grid_size: int,
 
 def scan_all_faces(camera_index: int = 0,
                    auto_capture_delay: float = 2.5) -> Optional[Dict[str, List[str]]]:
-    """
-    Interactive scanner. Guides through all 6 faces.
-
-    Controls:
-      SPACE  — capture current face immediately
-      A      — toggle auto-capture (captures after steady countdown)
-      Q      — quit / abort
-
-    Returns: dict of face → 9-color-list, or None if aborted.
-    """
     cap = cv2.VideoCapture(camera_index)
     if not cap.isOpened():
         print(f"ERROR: Cannot open camera index {camera_index}")
@@ -252,14 +226,12 @@ def scan_all_faces(camera_index: int = 0,
 
 
 def frame_to_base64(frame: np.ndarray) -> str:
-    """Encode a BGR frame as base64 JPEG string (for WebSocket streaming)."""
     import base64
     _, buf = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 75])
     return base64.b64encode(buf).decode('utf-8')
 
 
 def base64_to_frame(b64: str) -> np.ndarray:
-    """Decode a base64 JPEG string back to BGR frame."""
     import base64
     data = base64.b64decode(b64)
     arr = np.frombuffer(data, np.uint8)
@@ -267,10 +239,6 @@ def base64_to_frame(b64: str) -> np.ndarray:
 
 
 def detect_from_base64(b64_frame: str, grid_rel: float = 0.42) -> List[str]:
-    """
-    Detect colors from a base64-encoded JPEG frame sent from browser.
-    grid_rel: fraction of min(width,height) to use as grid size.
-    """
     frame = base64_to_frame(b64_frame)
     h, w = frame.shape[:2]
     grid_size = int(min(w, h) * grid_rel)

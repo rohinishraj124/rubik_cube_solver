@@ -1,20 +1,3 @@
-"""
-scan_and_solve.py
-==================
-Run this script alongside the FastAPI backend to scan your physical cube
-with OpenCV and automatically send the result to the React frontend.
-
-Usage:
-    python scan_and_solve.py
-
-Controls:
-    SPACE  → capture current face
-    R      → retake last face
-    Q      → quit
-
-Requirements:
-    pip install opencv-python numpy requests
-"""
 
 import cv2
 import numpy as np
@@ -206,7 +189,6 @@ def scan_cube(camera_index=0):
 
 
 def post_state_to_api(state):
-    """POST scanned state to FastAPI so the React frontend updates live."""
     try:
         r = requests.post(f"{API_URL}/set-scanned-state",
                           json={"state": state}, timeout=3)

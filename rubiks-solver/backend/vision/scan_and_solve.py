@@ -1,17 +1,3 @@
-"""
-scan_and_solve.py
-==================
-Standalone script: opens webcam → scans 6 faces → solves → prints moves.
-Run from the backend/ directory:
-
-    python vision/scan_and_solve.py
-
-Optional flags:
-    --camera 0        webcam index (default 0)
-    --auto            enable auto-capture mode from the start
-    --post            also POST result to local FastAPI (must be running)
-    --api http://localhost:8000
-"""
 
 import sys
 import os

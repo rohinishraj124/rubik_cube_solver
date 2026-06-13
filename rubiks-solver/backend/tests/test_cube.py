@@ -1,8 +1,3 @@
-"""
-Unit Tests
-==========
-Run with: pytest tests/ -v
-"""
 
 import sys
 import os
@@ -45,7 +40,6 @@ class TestCubeBasics:
 
 
 class TestMoveInverses:
-    """Each move composed with its inverse should return to solved."""
 
     @pytest.mark.parametrize("move,inv", [
         ("U", "U'"), ("D", "D'"), ("R", "R'"),
@@ -67,7 +61,6 @@ class TestMoveInverses:
 
 
 class TestMoveOrder:
-    """Each move applied 4 times should return to solved (order-4 in group)."""
 
     @pytest.mark.parametrize("move", [
         "U", "U'", "D", "D'", "R", "R'", "L", "L'", "F", "F'", "B", "B'"
