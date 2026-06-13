@@ -9,6 +9,12 @@
     <img src="https://img.shields.io/badge/React-18+-61DAFB?style=flat&logo=react&logoColor=black" />
     <img src="https://img.shields.io/badge/OpenCV-4.x-5C3EE8?style=flat&logo=opencv&logoColor=white" />
     <img src="https://img.shields.io/badge/Docker-ready-2496ED?style=flat&logo=docker&logoColor=white" />
+    <a href="https://rubik-cube-solver-glbd.onrender.com/">
+      <img src="https://img.shields.io/badge/Live%20Demo-Render-46E3B7?style=flat&logo=render&logoColor=white" />
+    </a>
+  </p>
+  <p align="center">
+    <a href="https://rubik-cube-solver-glbd.onrender.com/">🚀 Try it live → rubik-cube-solver-glbd.onrender.com</a>
   </p>
 </p>
 
@@ -33,7 +39,7 @@ Point your webcam at each face of a scrambled Rubik's Cube, and this app will de
 |---|---|
 | Backend | Python, FastAPI, OpenCV, IDA\*, Kociemba |
 | Frontend | React 18, Vite, CSS |
-| Deployment | Docker |
+| Deployment | Docker, Render |
 
 ---
 
@@ -234,5 +240,3 @@ Wraps the `kociemba` library.
 | `R'` | Right face 90° counter-clockwise |
 | `R2` | Right face 180° |
 | `U`, `D`, `F`, `B`, `L` | Same pattern per face |
-
----
